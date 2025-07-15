@@ -32,14 +32,44 @@ export const useTwoFactor = () => {
       // Criar documento de email para ser processado por Cloud Function
       await addDoc(collection(db, 'email_queue'), {
         to: user.email,
+        from: 'noreply@eventos-tecnolog.firebaseapp.com',
         subject: 'Código de Verificação em Duas Etapas',
         html: `
-          <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #26387b;">Código de Verificação</h2>
-            <p>Seu código de verificação em duas etapas é:</p>
-            <div style="background: #f5f5f5; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 2px; margin: 20px 0;">${code}</div>
-            <p>Este código expira em 5 minutos.</p>
-            <p>Se você não solicitou este código, ignore este e-mail.</p>
+          <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; background: #f8f9fa; border-radius: 8px;">
+            <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 60px; height: 60px; background: #22c55e; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <h2 style="color: #1f2937; margin: 0; font-size: 24px;">Código de Verificação</h2>
+              </div>
+              
+              <p style="color: #6b7280; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Seu código de verificação em duas etapas é:
+              </p>
+              
+              <div style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; margin: 30px 0; border-radius: 8px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
+                ${code}
+              </div>
+              
+              <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                <p style="color: #92400e; margin: 0; font-size: 14px;">
+                  ⚠️ Este código expira em 5 minutos por segurança.
+                </p>
+              </div>
+              
+              <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">
+                Se você não solicitou este código, ignore este e-mail. Sua conta permanece segura.
+              </p>
+              
+              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+                  Sistema de Eventos Tecnológicos
+                </p>
+              </div>
+            </div>
           </div>
         `,
         user_id: user.uid,

@@ -1,42 +1,125 @@
-# Configuração de Envio de E-mails
+# Configuração do Sistema de Email - Eventos Tecnológicos
 
 ## Problema Atual
-O sistema está salvando os e-mails na coleção `email_queue` do Firestore, mas não está enviando os e-mails realmente. Para resolver isso, você precisa configurar uma Cloud Function no Firebase.
+O sistema de duas etapas e notificações por email não está funcionando porque os emails não estão sendo enviados. O código atual salva os emails no Firestore, mas não há Cloud Functions configuradas para processá-los.
 
-## Soluções Possíveis
+## ✅ Correções Implementadas
+- Email remetente configurado: `noreply@eventos-tecnolog.firebaseapp.com`  
+- Design dos emails melhorado com ícones verdes (não transparentes)
+- HTML responsivo e profissional
+- Templates atualizados para ambos os sistemas
 
-### 1. Cloud Function com Nodemailer (Recomendado)
-Use o arquivo `firebase-cloud-function-example.js` como base para criar uma Cloud Function que processa a fila de e-mails.
+## 🚀 Solução: Configurar Firebase Cloud Functions
 
-**Passos:**
-1. Instale Firebase CLI: `npm install -g firebase-tools`
-2. Inicialize Functions: `firebase init functions`
-3. Copie o código do exemplo para `functions/index.js`
-4. Configure as credenciais: 
-   ```bash
-   firebase functions:config:set email.user="seu-email@gmail.com"
-   firebase functions:config:set email.password="sua-senha-de-app"
-   ```
-5. Deploy: `firebase deploy --only functions`
+### 1. Pré-requisitos
+- Projeto Firebase com Firestore ativo
+- Domínio: eventos-tecnolog.firebaseapp.com
+- Email configurado: noreply@eventos-tecnolog.firebaseapp.com
 
-### 2. Serviço de E-mail Externo
-Use serviços como:
-- SendGrid
-- Mailgun
-- Amazon SES
-- Resend
+### 2. Configuração do Firebase Functions
 
-### 3. Extensão do Firebase
-Instale a extensão "Trigger Email" do Firebase Extensions que processa automaticamente documentos do Firestore.
+#### Instalar Firebase CLI
+```bash
+npm install -g firebase-tools
+```
 
-## Status Atual
-- ✅ E-mails são criados na coleção `email_queue`
-- ✅ Código 2FA é gerado e salvo
-- ❌ E-mails não são enviados fisicamente
-- ✅ Ícone de orçamento agora está verde
+#### Inicializar Functions no projeto
+```bash
+firebase init functions
+```
 
-## Verificação
-Para verificar se está funcionando:
-1. Verifique a coleção `email_queue` no Firestore
-2. Os documentos devem aparecer lá quando você solicitar códigos
-3. Configure uma Cloud Function para processar esses documentos
+#### Instalar dependências
+```bash
+cd functions
+npm install nodemailer
+```
+
+#### Copiar o código
+Copie o código do arquivo `public/firebase-cloud-function-example.js` para `functions/index.js`
+
+### 3. Configurar Credenciais de Email
+
+#### Opção 1: Gmail App Password (Recomendado)
+1. Crie uma conta Gmail para noreply@eventos-tecnolog.firebaseapp.com
+2. Ative a autenticação em duas etapas
+3. Gere um App Password específico
+4. Configure no Firebase:
+```bash
+firebase functions:config:set email.user="noreply@eventos-tecnolog.firebaseapp.com"
+firebase functions:config:set email.password="app-password-gerado"
+```
+
+#### Opção 2: SMTP Customizado
+Configure um servidor SMTP customizado para o domínio eventos-tecnolog.firebaseapp.com
+
+### 4. Deploy
+```bash
+firebase deploy --only functions
+```
+
+### 5. Testar
+Após o deploy, teste o sistema de duas etapas. Os emails devem ser enviados automaticamente.
+
+## 📤 Sistema de Upload - Como Usar
+
+### ✅ O sistema de upload já está funcionando!
+
+O hook `useFirebaseStorage` já está configurado e pronto para uso. Funcionalidades:
+
+#### Recursos Disponíveis:
+- Upload de arquivos únicos ou múltiplos
+- Tipos suportados: JPG, PNG, GIF, PDF, TXT
+- Tamanho máximo: 10MB por arquivo
+- Organização automática por usuário
+- Exclusão de arquivos
+- Listagem de arquivos do usuário
+
+#### Como usar em componentes:
+```jsx
+import { useFirebaseStorage } from '@/hooks/useFirebaseStorage';
+
+function MeuComponente() {
+  const { uploadFile, uploading, progress, deleteFile, listUserFiles } = useFirebaseStorage();
+
+  const handleUpload = async (event) => {
+    const file = event.target.files[0];
+    const result = await uploadFile(file, 'documentos'); // pasta personalizada
+    
+    if (result) {
+      console.log('Arquivo enviado:', result.url);
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleUpload} />
+      {uploading && <p>Enviando... {progress}%</p>}
+    </div>
+  );
+}
+```
+
+#### Estrutura de Pastas no Storage:
+```
+/uploads/
+  /{userId}/
+    /timestamp-arquivo.jpg
+/documentos/
+  /{userId}/
+    /timestamp-documento.pdf
+```
+
+## ✅ Status Final
+- ✅ Email remetente: noreply@eventos-tecnolog.firebaseapp.com
+- ✅ Design verde com ícones não transparentes
+- ✅ HTML responsivo e profissional
+- ✅ Códigos 2FA com expiração de 5 minutos
+- ✅ Sistema de upload totalmente funcional
+- ⚠️ Configurar Cloud Functions para envio de emails
+
+## 🔧 Problemas Comuns
+1. **Função não disparando**: Verifique se o Firestore está ativo
+2. **Email não enviando**: Verifique credenciais do Gmail
+3. **Erro de autenticação**: Use App Password, não senha normal
+4. **Domínio não reconhecido**: Configure SPF/DKIM para o domínio
+5. **Upload falha**: Verifique se o Firebase Storage está ativo
