@@ -38,9 +38,9 @@ export const useTwoFactor = () => {
           <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; background: #f8f9fa; border-radius: 8px;">
             <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
               <div style="text-align: center; margin-bottom: 30px;">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #26387b, #1d76b2); border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <div style="width: 60px; height: 60px; background: #22c55e; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 12l2 2 4-4"/>
                   </svg>
                 </div>
                 <h2 style="color: #1f2937; margin: 0; font-size: 24px;">Código de Verificação</h2>
@@ -50,7 +50,7 @@ export const useTwoFactor = () => {
                 Seu código de verificação em duas etapas é:
               </p>
               
-              <div style="background: linear-gradient(135deg, #26387b, #1d76b2); color: white; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; margin: 30px 0; border-radius: 8px; box-shadow: 0 4px 12px rgba(38, 56, 123, 0.3);">
+              <div style="background: #f3f4f6; color: #111827; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; margin: 30px 0; border-radius: 8px; border: 2px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                 ${code}
               </div>
               
@@ -66,7 +66,7 @@ export const useTwoFactor = () => {
               
               <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                  <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #26387b, #1d76b2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 20px; height: 20px; background: #22c55e; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M9 12l2 2 4-4"/>
                     </svg>
