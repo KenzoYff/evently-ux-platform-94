@@ -112,7 +112,11 @@ const Profile: React.FC = () => {
             <CardContent className="flex flex-col items-center space-y-6">
               <div className="relative group">
                 <Avatar className="w-32 h-32 lg:w-40 lg:h-40 ring-4 ring-primary/20 ring-offset-4 ring-offset-background transition-all-smooth group-hover:ring-primary/40">
-                  <AvatarImage src={userProfile?.photoURL} alt="Foto do perfil" />
+                  <AvatarImage 
+                    src={userProfile?.photoURL} 
+                    alt="Foto do perfil" 
+                    className="object-cover"
+                  />
                   <AvatarFallback className="text-3xl lg:text-4xl bg-gradient-to-br from-[#26387b] to-[#1d76b2] text-white">
                     {userProfile?.displayName?.charAt(0) || 'U'}
                   </AvatarFallback>

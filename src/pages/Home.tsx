@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, Calendar, Users, DollarSign, Clock, FileText, Edit, Trash2 } from 'lucide-react';
 import { useEvents } from '@/hooks/useEvents';
+import { useUsers } from '@/hooks/useUsers';
+import { useAuth } from '@/contexts/AuthContext';
 import { formatDate } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import EventCreateDialog from '@/components/EventCreateDialog';
@@ -24,6 +26,8 @@ import {
 
 const Home: React.FC = () => {
   const { events, loading, updateEvent, deleteEvent } = useEvents();
+  const { users } = useUsers();
+  const { userProfile } = useAuth();
   const [editingEvent, setEditingEvent] = useState<any>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -41,7 +45,7 @@ const Home: React.FC = () => {
   // Calculate statistics
   const activeEvents = events.filter(event => event.status !== 'Concluído').length;
   const totalBudget = events.reduce((sum, event) => sum + (event.budget || 0), 0);
-  const totalCollaborators = events.reduce((sum, event) => sum + (event.teamMembers?.length || 0), 0);
+  const totalCollaborators = users.length;
   const upcomingEvents = events.filter(event => new Date(event.eventDate) > new Date()).length;
 
   const handleEditEvent = (event: any) => {
@@ -74,11 +78,17 @@ const Home: React.FC = () => {
         <div className="bg-gradient-to-r from-[#26387b] to-[#1d76b2] rounded-lg p-6 mb-8 text-white animate-fade-in">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center animate-pulse-scale">
-              <span className="text-xl font-bold">U</span>
+              <span className="text-xl font-bold">
+                {userProfile?.displayName?.charAt(0) || 'U'}
+              </span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold animate-slide-up">Bem-vindo, UserTester!</h1>
-              <p className="opacity-90 animate-fade-in">EAD Tecnolog - EAD</p>
+              <h1 className="text-2xl font-bold animate-slide-up">
+                Bem-vindo, {userProfile?.displayName || 'Usuário'}!
+              </h1>
+              <p className="opacity-90 animate-fade-in">
+                {userProfile?.department || 'Tecnolog'} - {userProfile?.position || 'Colaborador'}
+              </p>
             </div>
           </div>
         </div>

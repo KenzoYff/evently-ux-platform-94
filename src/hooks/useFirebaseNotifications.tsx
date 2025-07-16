@@ -149,7 +149,7 @@ export const useFirebaseNotifications = () => {
               
               <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                 <p style="color: #6b7280; font-size: 14px; margin: 0;">
-                  Esta é uma notificação automática do sistema de eventos.
+                  Esta é uma notificação automática da Tecnolog.
                 </p>
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px;">
                   <div style="width: 20px; height: 20px; background: #22c55e; border-radius: 4px; display: flex; align-items: center; justify-content: center;">

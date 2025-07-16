@@ -37,7 +37,7 @@ const NotificationManager: React.FC = () => {
   const handleTestEmailNotification = async () => {
     await sendEmailNotification(
       'Email de Teste',
-      'Este é um email de teste do sistema Eventos Tecnolog!'
+      'Este é um email de teste da Tecnolog!'
     );
   };
 

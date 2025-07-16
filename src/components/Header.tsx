@@ -160,10 +160,18 @@ const Header: React.FC = () => {
                 size="sm"
                 className="flex items-center space-x-2 hover-glow"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">
-                    {userProfile?.displayName?.charAt(0) || 'U'}
-                  </span>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                  {userProfile?.photoURL ? (
+                    <img 
+                      src={userProfile.photoURL} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white text-sm font-medium">
+                      {userProfile?.displayName?.charAt(0) || 'U'}
+                    </span>
+                  )}
                 </div>
                 <span className="hidden md:block text-sm font-medium">
                   {userProfile?.displayName || 'Usuário'}
