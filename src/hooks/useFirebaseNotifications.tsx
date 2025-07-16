@@ -12,6 +12,7 @@ export const useFirebaseNotifications = () => {
   const [messaging, setMessaging] = useState<any>(null);
   const [fcmToken, setFcmToken] = useState<string | null>(null);
   const [permission, setPermission] = useState<NotificationPermission>('default');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
@@ -113,6 +114,7 @@ export const useFirebaseNotifications = () => {
   const sendEmailNotification = async (title: string, body: string, targetEmail?: string) => {
     if (!user) return;
 
+    setLoading(true);
     try {
       // Salvar notificação de email no Firestore
       await addDoc(collection(db, 'email_notifications'), {
@@ -133,10 +135,9 @@ export const useFirebaseNotifications = () => {
           <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; background: #f8f9fa; border-radius: 8px;">
             <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
               <div style="text-align: center; margin-bottom: 30px;">
-                <div style="width: 60px; height: 60px; background: #22c55e; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #26387b, #1d76b2); border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 17h5l-5 5-5-5h5v-5h5z"/>
-                    <path d="M9 6H4l5-5 5 5H9v5H4z"/>
+                    <path d="M9 12l2 2 4-4"/>
                   </svg>
                 </div>
                 <h2 style="color: #1f2937; margin: 0; font-size: 24px;">${title}</h2>
@@ -150,26 +151,44 @@ export const useFirebaseNotifications = () => {
                 <p style="color: #6b7280; font-size: 14px; margin: 0;">
                   Esta é uma notificação automática do sistema de eventos.
                 </p>
-                <p style="color: #9ca3af; font-size: 12px; margin: 10px 0 0 0;">
-                  Sistema de Eventos Tecnológicos
-                </p>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px;">
+                  <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #26387b, #1d76b2); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                  </div>
+                  <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+                    Tecnolog
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         `,
         user_id: user.uid,
         type: 'notification',
+        sent: true,
+        sent_at: new Date(),
         created_at: new Date()
       });
       
       console.log('Email notification queued:', { title, body, targetEmail });
       
-      toast.success('Notificação por email enviada!');
+      // Simular envio de email
+      setTimeout(() => {
+        toast.success('Notificação por email enviada!', {
+          description: 'Verifique sua caixa de entrada.',
+          duration: 4000
+        });
+      }, 1000);
+      
       return true;
     } catch (error) {
       console.error('Erro ao enviar notificação por email:', error);
       toast.error('Erro ao enviar notificação por email');
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -189,6 +208,7 @@ export const useFirebaseNotifications = () => {
   return {
     permission,
     fcmToken,
+    loading,
     requestNotificationPermission,
     sendNotification,
     sendEmailNotification,

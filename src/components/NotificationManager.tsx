@@ -12,6 +12,7 @@ const NotificationManager: React.FC = () => {
     requestNotificationPermission,
     sendNotification,
     sendEmailNotification,
+    loading,
     isSupported
   } = useFirebaseNotifications();
 
@@ -110,9 +111,10 @@ const NotificationManager: React.FC = () => {
             <Button 
               onClick={handleTestEmailNotification}
               variant="outline"
+              disabled={loading}
             >
               <Mail className="h-4 w-4 mr-2" />
-              Testar Email
+              {loading ? 'Enviando...' : 'Testar Email'}
             </Button>
           </div>
 
